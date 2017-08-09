@@ -52,4 +52,33 @@ public class SortTest {
         System.out.println("quickSort result: " + Arrays.toString(array));
     }
 
+    @Test
+    public void shellSort() throws Exception {
+        double[] array = {8, 5, 4, 1, 9, 6, 7, 3, 2};
+        Sort.shellSort(array);
+        System.out.println("shellSort result: " + Arrays.toString(array));
+    }
+
+    @Test
+    public void radixLSDSort() throws Exception {
+        int[] array = {18, 125, 4, 321, 9, 96, 7, 63, 2232};
+        Sort.radixLSDSort(array);
+        System.out.println("radixLSDSort result: " + Arrays.toString(array));
+    }
+
+    @Test
+    public void radixMSDSort() throws Exception {
+        int[] array = {18, 125, 4, 321, 9, 96, 7, 63, 2232};
+        Sort.radixMSDSort(array);
+        System.out.println("radixMSDSort result: " + Arrays.toString(array));
+    }
+
+    @Test
+    public void getMaxNumLength() throws Exception {
+        int[] array = {18, 125, 4, 321, 9, 96, 7, 63, 2232};
+        int maxNumbLength = Sort.getMaxNumLength(array);
+        System.out.println("max number length of array " + Arrays.toString(array) + " is: " + maxNumbLength);
+    }
+
+
 }
