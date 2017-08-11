@@ -55,6 +55,8 @@ public class Search {
         graph.floyd();
     }
 
-
+    public static void spfa(Graph graph) {
+        graph.spfa();
+    }
 
 }

@@ -3,6 +3,7 @@ package com.db520.algorithm;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 
 /**
  * @Description Model of Graph by Adjacency Matrix
@@ -13,13 +14,14 @@ public class Graph {
     private ArrayList pointList;
     private int[][] edges;
     private int edgeNum = 0;
+    private static int MAX_WEIGHT = Integer.MAX_VALUE / 10;
 
     public Graph(int n) {
         edges = new int[n][n];
         pointList = new ArrayList(n);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                edges[i][j] = Integer.MAX_VALUE / 10;
+                edges[i][j] = MAX_WEIGHT;
             }
         }
     }
@@ -47,7 +49,7 @@ public class Graph {
 
     public int getFirstNeighbor(int i) {
         for (int j = 0; j < getNumOfPoint(); j++) {
-            if(getEdgeWeight(i, j) > 0) {
+            if(getEdgeWeight(i, j) != MAX_WEIGHT) {
                 return j;
             }
         }
@@ -56,7 +58,7 @@ public class Graph {
 
     public int getNextNeighbor(int i, int first) {
         for (int j = first + 1; j < getNumOfPoint(); j++) {
-            if(getEdgeWeight(i, j) > 0) {
+            if(getEdgeWeight(i, j) != MAX_WEIGHT) {
                 return j;
             }
         }
@@ -95,7 +97,7 @@ public class Graph {
         for (int i = 1; i < getNumOfPoint(); i++) {
             for (int j = 0; j < getNumOfPoint(); j++) {
                 for (int k = 0; k < getNumOfPoint(); k++) {
-                    if(getEdgeWeight(j, k) > 0) {
+                    if(getEdgeWeight(j, k) != MAX_WEIGHT) {
                         if(result[k] > result[j] + getEdgeWeight(j, k)) {
                             result[k] = result[j] + getEdgeWeight(j, k);
                         }
@@ -107,7 +109,7 @@ public class Graph {
         for (int i = 1; i < getNumOfPoint(); i++) {
             for (int j = 0; j < getNumOfPoint(); j++) {
                 for (int k = 0; k < getNumOfPoint(); k++) {
-                    if (getEdgeWeight(j, k) > 0) {
+                    if (getEdgeWeight(j, k) != MAX_WEIGHT) {
                         if(result[k] > result[j] + getEdgeWeight(j, k)) {
                             System.out.println("There is a negative cycle in the graph.");
                             return false;
@@ -147,7 +149,7 @@ public class Graph {
             candidateNum--;
 
             for (int i = 0; i < edges[minIndex].length; i++) {
-                if (getEdgeWeight(minIndex, i) > 0 && !isVisited[i]) {
+                if (getEdgeWeight(minIndex, i) != MAX_WEIGHT && !isVisited[i]) {
                     if(result[i] > result[minIndex] + getEdgeWeight(minIndex, i)) {
                         result[i] = result[minIndex] + getEdgeWeight(minIndex, i);
                     }
@@ -180,6 +182,40 @@ public class Graph {
                 System.out.println(i + "->" + j + "  " + Dis[i][j]);
             }
         }
+    }
+
+    public void spfa() {
+        ArrayDeque<Integer> queue = new ArrayDeque<Integer>();
+        int[] negativeCycle = new int[getNumOfPoint()];
+        double[] result = new double[getNumOfPoint()];
+        for (int i = 1; i < getNumOfPoint(); i++) {
+            result[i] = Integer.MAX_VALUE;
+        }
+        queue.offer(0);
+        negativeCycle[0]++;
+        while(queue.size() > 0) {
+            for (int i = 0; i < getNumOfPoint(); i++) {
+                if(negativeCycle[i] >= getNumOfPoint()) {
+                    System.out.println("There is negative cycle in the graph.");
+                    return;
+                }
+            }
+
+            int firstPoint = queue.poll().intValue();
+            for (int i = 0; i < getNumOfPoint(); i++) {
+                if (getEdgeWeight(firstPoint, i) != MAX_WEIGHT) {
+                    if(result[i] > result[firstPoint] + getEdgeWeight(firstPoint, i)) {
+                        result[i] = result[firstPoint] + getEdgeWeight(firstPoint, i);
+                        if(!queue.contains(i)) {
+                            queue.offer(i);
+                            negativeCycle[i]++;
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("bellmanFord result: " + Arrays.toString(result));
     }
 
     private void depthFirstSearch(boolean[] isVisited, int i) {
