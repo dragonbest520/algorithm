@@ -121,7 +121,7 @@ public class AStar {
 
     private void drawPath(int[][] maps, Node end) {
         if (end == null || maps == null) return;
-        System.out.println("Total G：" + end.g);
+        System.out.println("Total G: " + end.g);
         String path = "";
         while (end != null) {
             path = "(" + end.coord.x + ", " + end.coord.y + ") " + path;

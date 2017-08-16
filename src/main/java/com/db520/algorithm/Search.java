@@ -34,12 +34,12 @@ public class Search {
     }
 
     public static void breadthFirstSearch(Graph graph) {
-        System.out.print("breadthFirstSearch result：");
+        System.out.print("breadthFirstSearch result: ");
         graph.breadthFirstSearch();
     }
 
     public static void depthFirstSearch(Graph graph) {
-        System.out.print("depthFirstSearch result：");
+        System.out.print("depthFirstSearch result: ");
         graph.depthFirstSearch();
     }
 
