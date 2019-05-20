@@ -21,25 +21,26 @@ public class CombinationSum {
 
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> listResult = new ArrayList<>();
         Map<Integer, Integer> numMap = new HashMap<Integer, Integer>();
         for (int i = 0; i < candidates.length; i++) {
             numMap.putIfAbsent(candidates[i], i);
         }
 
-        int t = target;
-        while(t > 0) {
-
-        }
 
 
-        List<List<Integer>> list = new ArrayList<>();
 
         return list;
     }
 
-    public boolean test(int[] candidates, int target) {
-        for (int i = 0; i < candidates.length; i++) {
-            if(candidates)
+    public boolean test(int[] candidates, int target, Map<Integer, Integer> numMap, List<List<Integer>> listResult) {
+        if(numMap.containsKey(target)) {
+            List tempList = new ArrayList();
+            tempList.add(target);
+            listResult.add(tempList);
+            numMap.remove(target);
+
         }
+
     }
 }
