@@ -21,26 +21,22 @@ public class CombinationSum {
 
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> listResult = new ArrayList<>();
-        Map<Integer, Integer> numMap = new HashMap<Integer, Integer>();
-        for (int i = 0; i < candidates.length; i++) {
-            numMap.putIfAbsent(candidates[i], i);
-        }
-
-
-
-
-        return list;
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        dfs(res, temp, target, candidates, 0);
+        return res;
     }
 
-    public boolean test(int[] candidates, int target, Map<Integer, Integer> numMap, List<List<Integer>> listResult) {
-        if(numMap.containsKey(target)) {
-            List tempList = new ArrayList();
-            tempList.add(target);
-            listResult.add(tempList);
-            numMap.remove(target);
-
+    private void dfs(List<List<Integer>> res, List<Integer> temp, int target,
+                     int[] candidates, int j) {
+        if (target == 0) {  //满足条件，将中间集加入结果集
+            res.add(new ArrayList<>(temp));
         }
-
+        for (int i = j; i < candidates.length && target >= candidates[i]; i++) {  //target>=candidates[i]是剪枝操作
+            temp.add(candidates[i]);
+            dfs(res, temp, target - candidates[i], candidates, i);
+            temp.remove(temp.size() - 1);
+        }
     }
 }
