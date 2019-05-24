@@ -2,6 +2,7 @@ package com.db520.algorithm.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,6 +31,16 @@ public class Subsets {
         //resultList.
         Arrays.sort(nums);
         int len = nums.length;
+        List<Integer> firstList = new ArrayList<>();
+        resultList.add(firstList);
+        for (int i = 0; i < len; i++) {
+            Iterator<List<Integer>> iterator = resultList.iterator();
+            while(iterator.hasNext()) {
+                List list = new ArrayList(iterator.next());
+                list.add(nums[i]);
+                resultList.add(list);
+            }
+        }
 
 
         return resultList;
