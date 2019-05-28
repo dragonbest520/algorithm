@@ -24,25 +24,44 @@ public class LongestPalindromicSubstring {
             return s;
         }
 
-        String result = s.substring(0);
-        int count = 1;
-        int i = 0;
-        int j = 1;
-        Map<Character, Integer> map = new HashMap<>();
-        map.put(s.charAt(i), i);
-        while(j < s.length()) {
-            if(!isPalindromic(s.substring(i, j))) {
-                map.remove(s.charAt(i++));
-            } else {
-                map.put(s.charAt(j), j);
-                j++;
-                if(count < j - i) {
-                    result = s.substring(i, j);
-                    count = j - i;
-                }
+        /*String t = "$#";
+        for (int i = 0; i < s.length(); i++) {
+            t += s.charAt(i);
+            t += "#";
+        }*/
+
+        StringBuilder t = new StringBuilder("$#");
+        for (int i = 0; i < s.length(); i++) {
+            t.append(s.charAt(i));
+            t.append("#");
+        }
+
+        int id = 0;
+        int resCenter = 0;
+        int resLen = 0;
+        int mx = 0;
+        int[] p = new int[t.length()];
+//        for (int j = 0; j < t.length(); j++) {
+//            p[j] = 0;
+//        }
+
+        for (int i = 1; i < t.length(); i++) {
+            p[i] = mx > i ? Math.min(mx - i, p[2 * id - i]) : 1;
+            while(i + p[i] < t.length() && t.charAt(i + p[i]) == t.charAt(i - p[i])) {
+                p[i]++;
+            }
+            if(mx < i + p[i]) {
+                mx = i + p[i];
+                id = i;
+            }
+            if(resLen < p[i]) {
+                resLen = p[i];
+                resCenter = i;
             }
         }
-        return result;
+
+
+        return s.substring((resCenter - resLen) / 2, (resCenter - resLen) / 2 + resLen - 1);
     }
 
     public boolean isPalindromic(String s) {
