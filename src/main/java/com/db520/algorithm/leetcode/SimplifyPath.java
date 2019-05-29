@@ -1,5 +1,9 @@
 package com.db520.algorithm.leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * 71. Simplify Path
  *
@@ -16,11 +20,29 @@ public class SimplifyPath {
 
     public static void main(String[] args) {
         String path = "/home/";
-        System.out.println(new SimplifyPath().simplifyPath(path));
+        String path2 = "/a//b////c/d//././/..";
+        String path3 = "/a/../../b/../c//.//";
+        String path4 = "/...";
+        String path5 = "/.";
+        String path6 = "/../";
+        String path7 = "/..";
+        String path8 = "/.....hidden";
+        System.out.println(new SimplifyPath().simplifyPath(path8));
     }
-
 
     public String simplifyPath(String path) {
-        return "";
+        Stack<String> s = new Stack<>();
+        String[] p = path.split("/");
+        for (String t : p) {
+            if (!s.isEmpty() && t.equals("..")) {
+                s.pop();
+            } else if (!t.equals(".") && !t.equals("") && !t.equals("..")) {
+                s.push(t);
+            }
+        }
+        List<String> list = new ArrayList(s);
+        return "/" + String.join("/", list);
     }
+
+
 }

@@ -14,12 +14,37 @@ public class LengthofLastWord {
 
     public static void main(String[] args) {
         String s = "Hello World";
-        System.out.println(new LengthofLastWord().lengthOfLastWord(s));
+        String s2 = " ";
+        String s3 = "a";
+        System.out.println(new LengthofLastWord().lengthOfLastWord(s3));
     }
 
 
     public int lengthOfLastWord(String s) {
-        // TODO
-        return 0;
+        if(s.length() == 0) {
+            return 0;
+        }
+        int start = -1;
+        int end = -1;
+        int i = s.length() - 1;
+
+        boolean wordStart = false;
+        while(i >= 0) {
+            if(s.charAt(i) == ' ') {
+                if(wordStart == false) {
+                } else {
+                    start = i;
+                    break;
+                }
+            } else {
+                if(wordStart == false) {
+                    end = i;
+                    wordStart = true;
+                }
+            }
+            i--;
+        }
+
+        return end -start;
     }
 }
