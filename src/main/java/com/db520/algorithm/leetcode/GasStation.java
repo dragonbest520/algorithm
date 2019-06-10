@@ -23,11 +23,47 @@ public class GasStation {
     public static void main(String[] args) {
         int[] gas = {1,2,3,4,5};
         int[] cost = {3,4,5,1,2};
+        System.out.println(new GasStation().canCompleteCircuit(gas, cost));
     }
 
 
     public int canCompleteCircuit(int[] gas, int[] cost) {
+        for (int i = 0; i < gas.length; i++) {
+            int gasTotal = 0;
+            boolean flag = true;
+            for (int j = i; j < i + gas.length && flag == true; j++) {
+                int index = j;
+                if(j >= gas.length) {
+                    index = j - gas.length;
+                }
+                if(gasTotal + gas[index] >= cost[index]) {
+                    gasTotal = gasTotal + gas[index] - cost[index];
+                } else {
+                    flag = false;
+                }
+            }
+            if(flag) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-        return 0;
+
+    public int canCompleteCircuit2(int[] gas, int[] cost) {
+        int start = 0;
+        int remain = 0;
+        int debt = 0;
+
+        for (int i = 0; i < gas.length; i++) {
+            remain += gas[i] - cost[i];
+            if(remain < 0) {
+                debt += remain;
+                start = i + 1;
+                remain = 0;
+            }
+
+        }
+        return remain + debt >= 0 ? start : -1;
     }
 }
