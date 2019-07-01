@@ -27,32 +27,83 @@ public class InsertionSortList {
     }
 
     public static void main(String[] args) {
-        ListNode n1 = new ListNode(4);
+        /*ListNode n1 = new ListNode(4);
         ListNode n2 = new ListNode(2);
         ListNode n3 = new ListNode(1);
         ListNode n4 = new ListNode(3);
         n1.next = n2;
         n2.next = n3;
+        n3.next = n4;*/
+
+        ListNode n1 = new ListNode(-1);
+        ListNode n2 = new ListNode(5);
+        ListNode n3 = new ListNode(3);
+        ListNode n4 = new ListNode(4);
+        ListNode n5 = new ListNode(0);
+        n1.next = n2;
+        n2.next = n3;
         n3.next = n4;
+        n4.next = n5;
+
+
+
         System.out.println(new InsertionSortList().insertionSortList(n1));
     }
 
-    public ListNode insertionSortList(ListNode head) {
+    //Too Slow
+    public ListNode insertionSortList2(ListNode head) {
+        if(head == null) {
+            return head;
+        }
         ListNode head0 = new ListNode(-1);
-        ListNode first = head;
-        head0.next = first;
-        while(head.next != null) {
-            first = head0.next;
-            ListNode pre = first;
-            while(first.next != null) {
-                if(head.next.val > first.next.val) {
-
+        ListNode resultNode = null;
+        while(head != null) {
+            if(resultNode == null) {
+                resultNode = new ListNode(head.val);
+                head0.next = resultNode;
+            } else {
+                resultNode = head0.next;
+                ListNode pre = head0;
+                while(resultNode != null) {
+                    if(head.val < resultNode.val) {
+                        ListNode tmp = new ListNode(head.val);
+                        pre.next = tmp;
+                        tmp.next = resultNode;
+                        resultNode = head0.next;
+                        break;
+                    } else {
+                        if(resultNode.next == null) {
+                            ListNode tmp = new ListNode(head.val);
+                            resultNode.next = tmp;
+                            break;
+                        } else {
+                            pre = resultNode;
+                            resultNode = resultNode.next;
+                        }
+                    }
                 }
             }
-
-
             head = head.next;
         }
-        return head;
+        return head0.next;
+    }
+
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null) {
+            return head;
+        }
+        ListNode head0 = new ListNode(-1);
+        ListNode cur = head;
+        while(cur != null) {
+            ListNode next = cur.next;
+            ListNode pre = head0;
+            while (pre.next != null && cur.val > pre.next.val) {
+                pre = pre.next;
+            }
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = next;
+        }
+        return head0.next;
     }
 }
