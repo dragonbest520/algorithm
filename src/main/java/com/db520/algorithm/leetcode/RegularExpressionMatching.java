@@ -17,7 +17,7 @@ public class RegularExpressionMatching {
     public static void main(String[] args) {
         String s = "mississippi";
         String p = "mis*is*p*.";
-        System.out.println(new RegularExpressionMatching().isMatch(s, p));
+        System.out.println(new RegularExpressionMatching().isMatch2(s, p));
     }
 
     //recursive
@@ -39,6 +39,22 @@ public class RegularExpressionMatching {
 
     //DP
     public boolean isMatch2(String s, String p) {
-        return false;
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+        dp[s.length()][p.length()] = true;
+
+        for (int i = s.length(); i >= 0; i--) {
+            for (int j = p.length(); j >= 0; j--) {
+                if(i == s.length() && j == p.length()) {
+                    continue;
+                }
+                boolean firstMatch = (i < s.length() && j < p.length() && (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.'));
+                if(j + 1 < p.length() && p.charAt(j + 1) == '*') {
+                    dp[i][j] = dp[i][j + 2] || (firstMatch && dp[i + 1][j]);
+                } else {
+                    dp[i][j] = firstMatch && dp[i + 1][j + 1];
+                }
+            }
+        }
+        return dp[0][0];
     }
 }
