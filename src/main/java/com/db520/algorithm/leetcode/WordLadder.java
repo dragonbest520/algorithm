@@ -42,6 +42,7 @@ public class WordLadder {
         System.out.println(new WordLadder().ladderLength(beginWord, endWord, wordList));
     }
 
+    //BFS
     public int ladderLength2(String beginWord, String endWord, List<String> wordList) {
         if(!wordList.contains(endWord)) {
             return 0;
