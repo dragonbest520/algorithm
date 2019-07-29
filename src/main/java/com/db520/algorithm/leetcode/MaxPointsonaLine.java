@@ -11,6 +11,11 @@ package com.db520.algorithm.leetcode;
  **/
 public class MaxPointsonaLine {
 
+    public static void main(String[] args) {
+        int[][] points = {{1, 1}, {2, 2}, {3, 3}};
+        System.out.println(new MaxPointsonaLine().maxPoints(points));
+    }
+
     public int maxPoints(int[][] points) {
         return 0;
     }
